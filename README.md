@@ -88,6 +88,7 @@ schema = "dba_demotohbase"
 # Only below tables will be synced into slave_mysql.
 # I don't think it is necessary to sync all tables in a database.
 #tables = ["cre_request_record","cre_response_detail"]
+
 tables = ["cre_request_record"]
 
 # Below is for special rule mapping
@@ -114,7 +115,11 @@ slavetable = "cre_request_record"
 
 
 #[[rule]]
+
 #schema = "dba_demotohbase"
+
 #table = "cre_response_detail"
+
 #slaveschema = "test"
+
 #slavetable = "cre_response_detail"
