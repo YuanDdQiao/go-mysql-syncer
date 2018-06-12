@@ -34,14 +34,18 @@ The format in config file is below:
 # user must have replication privilege in MySQL.
 # xxx平台
 my_addr = "xxx:3306"
+
 my_user = "xxx"
+
 my_pass = "xxx"
+
 my_charset = "xxx"
 
 # Set true when slave_mysql 
 slave_addr = "xxx:3307"
 # slave_mysql user and password, maybe set by shield, nginx, or x-pack
 slave_user = "xxx"
+
 slave_pass = "xxx"
 
 # Path to store data, like master.info, if not set or empty,
@@ -78,6 +82,7 @@ skip_no_pk_table = false
 
 # MySQL data source
 [[source]]
+
 schema = "dba_demotohbase"
 
 # Only below tables will be synced into slave_mysql.
@@ -98,9 +103,13 @@ tables = ["cre_request_record"]
 # +-------+--------------+------+-----+---------+-------+
 # 
 [[rule]]
+
 schema = "dba_demotohbase"
+
 table = "cre_request_record"
+
 slaveschema = "test"
+
 slavetable = "cre_request_record"
 
 
