@@ -1,0 +1,87 @@
+
+# MySQL address, user and password
+# user must have replication privilege in MySQL.
+my_addr = "ip:3306"
+my_user = "mysql"
+my_pass = "mysql"
+my_charset = "utf8"
+
+# Set true when slave_mysql 
+slave_addr = "tip:3307"
+# slave_mysql user and password, maybe set by shield, nginx, or x-pack
+slave_user = "mysql"
+slave_pass = "mysql"
+
+# Path to store data, like master.info, if not set or empty,
+# we must use this to support breakpoint resume syncing. 
+# TODO: support other storage, like etcd. 
+data_dir = "./var/"
+
+# Inner Http status address
+stat_addr = "0.0.0.0:12801"
+
+# pseudo server id like a slave 
+server_id = 1007
+
+# mysql or mariadb
+flavor = "mysql"
+
+# mysqldump execution path
+# if not set or empty, ignore mysqldump.
+mysqldump = "mysqldump"
+
+# if we have no privilege to use mysqldump with --master-data,
+# we must skip it.
+#skip_master_data = false
+skip_master_data = true
+
+# minimal items to be inserted in one bulk
+bulk_size = 128
+
+# force flush the pending requests if we don't have enough items >= bulk_size
+flush_bulk_time = "2000ms"
+
+# Ignore table without primary key
+skip_no_pk_table = false
+max_allowed_packet_mb=1024
+
+# MySQL data source
+[[source]]
+schema = "dbname"
+
+# Only below tables will be synced into slave_mysql.
+# "t_[0-9]{4}" is a wildcard table format, you can use it if you have many sub tables, like table_0000 - table_1023
+# I don't think it is necessary to sync all tables in a database.
+#tables = ["cre_request_record","cre_response_detail"]
+tables = ["tablenamelist"]
+
+# Below is for special rule mapping
+
+# Very simple example
+# 
+# desc t;
+# +-------+--------------+------+-----+---------+-------+
+# | Field | Type         | Null | Key | Default | Extra |
+# +-------+--------------+------+-----+---------+-------+
+# | id    | int(11)      | NO   | PRI | NULL    |       |
+# | name  | varchar(256) | YES  |     | NULL    |       |
+# +-------+--------------+------+-----+---------+-------+
+# 
+[[rule]]
+schema = "dbname"
+table = "tablenamelist"
+slaveschema = "tablenamelist"
+slavetable = "tablenamelist"
+
+#In order to map a mysql column on different target column you can define the field column as follows:
+#    [rule.field]
+#    // This will map column title to target search name_modify
+#    title="name_modify"
+#    // This will map column muil-column-name to target search muil-column-name-new
+#    muil-column-name="muil-column-name-new"
+
+
+
+
+# Only sync following columns
+filter = ["key1", "key2..."]
